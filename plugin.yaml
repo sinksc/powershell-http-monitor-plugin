@@ -1,0 +1,64 @@
+name: powershell-http-monitor-plugin
+version: 1.0.0
+rundeckPluginVersion: 1.2
+author: sinksc
+date: Mon April 15 2024
+providers:
+  - name: powershell-http-monitor-step
+    service: RemoteScriptNodeStep
+    title: 'powershell / http / monitor'
+    description: 'Submit an HTTP Request and check for a specified string in the response.'
+    plugin-type: script
+    script-interpreter: powershell -Command
+    script-file: powershellHttpMonitor.ps1
+    script-args: -url ${config.url} -test ${config.test_string} -method ${config.method} -user ${config.user} -password ${config.password}
+    config:
+      - type: String
+        name: url
+        title: HTTP URL*
+        description: 'Valid HTTP URL to be monitored. Ex: https://example.com'
+        required: true        
+      - type: String
+        name: test_string
+        title: Search String*
+        description: 'Wrap in single quotes if value contains spaces. If the specified test string is not in the Response, trigger a failure/notification'
+        required: true
+      - type: String
+        name: method
+        title: HTTP Method (GET or POST)*
+        description: 'If the specified test string is not in the Response, trigger a failure/notification'
+        type: Select
+        values: POST, GET
+        default: GET
+        required: true
+      - type: String
+        name: user
+        title: Username for login, if needed (Optional)
+        description: 'If specified along with password, will create a Credential and pass that in the Invoke-WebReqeust'
+      - type: String
+        name: password
+        title: Key Storage entry with password to use, if needed (Optional)
+        description: 'If specified along with user, will create a Credential and pass that in the Invoke-WebReqeust'
+        renderingOptions:
+          selectionAccessor: "STORAGE_PATH"
+          valueConversion: "STORAGE_PATH_AUTOMATIC_READ"
+          storage-path-root: "keys"
+  - name: powershell-cert-monitor-step
+    service: RemoteScriptNodeStep
+    title: 'powershell / cert / monitor'
+    description: 'Check SSL certificate expiration date and alert if within a specified threshold'
+    plugin-type: script
+    script-interpreter: powershell -Command
+    script-file: powershellSSLCertMonitor.ps1
+    script-args: -url ${config.url} -threshold ${config.daysThreshold}
+    config:
+      - type: String
+        name: url
+        title: HTTP URL*
+        description: 'Valid HTTPS URL to be checked. Ex: https://example.com'
+        required: true        
+      - type: String
+        name: daysThreshold
+        title: Expiration Threshold (days)*
+        description: 'Number of days to expiration, for triggering a failure/alert'
+        required: true
