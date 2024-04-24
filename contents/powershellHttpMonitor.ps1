@@ -8,6 +8,9 @@ param(
 
 $ProgressPreference = "SilentlyContinue"
 
+# Strip spaces from test string
+$test = $test.TrimStart()
+
 # Create a password object
 if ($user -and $password) {
     $secpasswd = ConvertTo-SecureString $password -AsPlainText -Force

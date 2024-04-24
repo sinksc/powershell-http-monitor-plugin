@@ -25,7 +25,7 @@ The following fields can passed to the step:
 | Input Name | Purpose | Example | Required? |
 |:----------:|:-------:|:-------:|:---------:|
 | url | URL to submit Request against | _https://some-url.com_ | Y |
-| test-string | String to look for in the HTTP Response. No special characters. If entry contains spaces, wrap in single quotes. | _'Homepage loaded'_, _stringwithnospaces_ | Y |
+| test-string | String to look for in the HTTP Response. No special characters. | _Homepage loaded_, _Homepage_ | Y |
 | method | Which HTTP method to use in the Request. POST is default. | _GET_ | Y |
 | user | Provide a username to use for server authentication | _username_ | N |
 | password | Provide a password to use for server authentication | _Key Storage entry_ | N |
