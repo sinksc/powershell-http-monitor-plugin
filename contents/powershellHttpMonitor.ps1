@@ -9,7 +9,7 @@ param(
 $ProgressPreference = "SilentlyContinue"
 
 # Strip spaces from test string
-$test = $test.TrimStart()
+$test = $test.Trim()
 
 # Create a password object
 if ($user -and $password) {
